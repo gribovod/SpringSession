@@ -5,6 +5,7 @@
  */
 package itstep;
 
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,5 +33,14 @@ public class UserController {
     @ResponseBody
     public String findUserNameByEmail(String email){
         return userDao.findByEmail(email).getName();
+    }
+    @RequestMapping("/myname")
+    @ResponseBody
+    public String myName(HttpSession session){
+        String str = "You are guest";
+        
+        if (((String) session.getAttribute("user")) == null) {
+            return str;
+        }else{ return (String) session.getAttribute("user");}
     }
 }

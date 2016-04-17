@@ -1,5 +1,6 @@
 package itstep;
 
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,10 +25,16 @@ public class AutorizationController {
 
     }
     @RequestMapping("/login")
-    public String login (String name, String password){
+    public String login (HttpSession session, String name, String password){
         if (name.equals(userDao.findByPassword(password).getName().toString())) {
-            return "Ok";
+            session.setAttribute("user", name);
+            return "Login as: " + name;
         }
         else{ return "error";}
+    }
+        @RequestMapping("/logoff")
+    public String loginOff (HttpSession session){
+        session.invalidate();
+        return "you are login off! by...";
     }
 }
